@@ -1,9 +1,11 @@
 <?php
 
-function dotcomwpp_show_page_file($path, $file=''){
-    if($file == 'single.php'){
-        return plugin_dir_path(__FILE__).'resources/php/single.php';
+function dotcomwpp_template_showpage($template, $type){
+    switch($type){
+        case 'single':
+            $template = plugin_dir_path(__FILE__)."../resources/php/single.php";
+            break;
     }
-    return $path;
+    return $template;
 }
-add_filter('theme_file_path', 'dotcomwpp_show_page_file', 20, 2);
+add_filter('single_templage', 'dotcomwpp_template_showpage', 10, 2);

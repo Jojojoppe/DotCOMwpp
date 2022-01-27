@@ -34,6 +34,8 @@ if(!defined('WPINC')){
 
 define("DOTCOMWPP_VERSION", "0.0.10");
 
+// Show page
+require_once plugin_dir_path(__FILE__)."includes/show_page.php"
 
 // Auto updater
 require_once plugin_dir_path(__FILE__)."includes/updater.php";

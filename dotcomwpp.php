@@ -2,7 +2,7 @@
 /*
 Plugin Name: DotCOMwpp
 Plugin URI: https://github.com/Jojojoppe/DotCOMwpp
-Version: 0.0.1
+Version: 0.0.2
 License: BSD-2
 Author: Joppe Blondel
 Author URI: https://github.com/Jojojoppe
@@ -32,10 +32,7 @@ if(!defined('WPINC')){
 	die;
 }
 
-define("DOTCOMWPP_VERSION", "0.0.10");
-
-// Show page
-require_once plugin_dir_path(__FILE__)."includes/show_page.php";
+define("DOTCOMWPP_VERSION", "0.0.2");
 
 // Auto updater
 require_once plugin_dir_path(__FILE__)."includes/updater.php";
@@ -68,3 +65,12 @@ register_activation_hook(__FILE__, "dotcomwpp_activation");
 function dotcomwpp_deactivation(){
 }
 register_deactivation_hook(__FILE__, "dotcomwpp_deactivation");
+
+// Page templates
+function dotcomwpp_page_templates( $template ) {
+    if(is_single()){
+        $template = plugin_dir_path(__FILE__).'resources/php/single.php';
+    }
+    return $template;
+}
+add_filter( 'template_include', 'dotcomwpp_page_templates' );

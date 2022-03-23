@@ -2,20 +2,24 @@
 /*
 Plugin Name: DotCOMwpp
 Plugin URI: https://github.com/Jojojoppe/DotCOMwpp
-Version: 0.0.2
+Version: 0.1.0
 License: BSD-2
 Author: Joppe Blondel
 Author URI: https://github.com/Jojojoppe
 Description: NEST specific addons
 Requires PHP: 7
+
 Copyright (c) 2022, Joppe Blondel
+
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
+
 1. Redistributions of source code must retain the above copyright notice, this
    list of conditions and the following disclaimer.
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
+   
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -32,17 +36,20 @@ if(!defined('WPINC')){
 	die;
 }
 
-define("DOTCOMWPP_VERSION", "0.0.2");
+define("DOTCOMWPP_VERSION", "0.1.0");
 
 // Auto updater
 require_once plugin_dir_path(__FILE__)."includes/updater.php";
+
+// Shortcodes
+require_once plugin_dir_path(__FILE__)."includes/secure_button.php";
 
 // Update hook
 define( 'WP_GITHUB_FORCE_UPDATE', true );
 if(is_admin()){
    $config = array(
       'slug' => plugin_basename(__FILE__), // this is the slug of your plugin
-      'proper_folder_name' => basename(plugin_dir_path(__FILE__)), // this is the name of the folder your plugin lives in
+      'proper_folder_name' => __DIR__, // this is the name of the folder your plugin lives in
       'api_url' => 'https://api.github.com/repos/Jojojoppe/DotCOMwpp', // the GitHub API url of your GitHub repo
       'raw_url' => 'https://raw.github.com/Jojojoppe/DotCOMwpp/master', // the GitHub raw url of your GitHub repo
       'github_url' => 'https://github.com/Jojojoppe/DotCOMwpp', // the GitHub url of your GitHub repo

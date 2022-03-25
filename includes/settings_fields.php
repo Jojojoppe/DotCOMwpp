@@ -31,7 +31,7 @@ function dotcomwpp_field_textarea($args){
 }
 function dotcomwpp_field_textarea_disabled($args){
 	$option = get_option($args['label_for']);
-	echo "<textarea id='".esc_attr($args['label_for'])."' ";
+	echo "<textarea disabled id='".esc_attr($args['label_for'])."' ";
 	echo "name='".esc_attr($args['label_for'])."'>";
 	echo $option."</textarea>";
 	echo "<p class='description'>";

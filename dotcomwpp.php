@@ -2,7 +2,7 @@
 /*
 Plugin Name: DotCOMwpp
 Plugin URI: https://github.com/Jojojoppe/DotCOMwpp
-Version: 0.1.0
+Version: 0.1.1
 License: BSD-2
 Author: Joppe Blondel
 Author URI: https://github.com/Jojojoppe
@@ -36,7 +36,7 @@ if(!defined('WPINC')){
 	die;
 }
 
-define("DOTCOMWPP_VERSION", "0.1.0");
+define("DOTCOMWPP_VERSION", "0.1.1");
 
 // Auto updater
 require_once plugin_dir_path(__FILE__)."includes/updater.php";
@@ -53,7 +53,7 @@ require_once plugin_dir_path(__FILE__)."includes/settings_fields.php";
 
 // Shortcodes
 require_once plugin_dir_path(__FILE__)."includes/secure_view.php";
-require_once plugin_dir_path(__FILE__)."includes/members_and_committees.php";
+require_once plugin_dir_path(__FILE__)."includes/permissions.php";
 
 // Members roles and capabilities
 require_once plugin_dir_path(__FILE__)."includes/users.php";

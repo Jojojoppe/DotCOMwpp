@@ -41,8 +41,25 @@ define("DOTCOMWPP_VERSION", "0.1.0");
 // Auto updater
 require_once plugin_dir_path(__FILE__)."includes/updater.php";
 
+// Error message
+require_once plugin_dir_path(__FILE__)."includes/error.php";
+
+// Utility functions
+require_once plugin_dir_path(__FILE__)."includes/utils.php";
+
+// Settings
+require_once plugin_dir_path(__FILE__)."includes/settings.php";
+require_once plugin_dir_path(__FILE__)."includes/settings_fields.php";
+
 // Shortcodes
-require_once plugin_dir_path(__FILE__)."includes/secure_button.php";
+require_once plugin_dir_path(__FILE__)."includes/secure_view.php";
+require_once plugin_dir_path(__FILE__)."includes/members_and_committees.php";
+
+// Members roles and capabilities
+require_once plugin_dir_path(__FILE__)."includes/users.php";
+
+// Settings page
+require_once plugin_dir_path(__FILE__)."includes/admin-settings.php";
 
 // Update hook
 define( 'WP_GITHUB_FORCE_UPDATE', true );
@@ -65,11 +82,13 @@ if(is_admin()){
 
 // Activation hook
 function dotcomwpp_activation(){
+   dotcomwpp_users_init();
 }
 register_activation_hook(__FILE__, "dotcomwpp_activation");
 
 // Deactivation hook
 function dotcomwpp_deactivation(){
+   dotcomwpp_users_deinit();
 }
 register_deactivation_hook(__FILE__, "dotcomwpp_deactivation");
 

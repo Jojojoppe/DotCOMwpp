@@ -22,16 +22,17 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
         $p_image = wp_get_attachment_url(get_post_thumbnail_id($post->ID), 'thumbnail');
 
         // Get first and last date
-        $dates = explode('-', $p_when);
+        $dates = preg_split('/ (-|=) /', $p_when);
         if(count($dates)>=2){
-            $p_when = $dates[0].' - '.end($dates);
+            $p_when = date("F jS Y - H:i", strtotime($dates[0])).' - '.date("F jS Y - H:i", strtotime(end($dates)));
         }else{
+            $p_when = date("F jS Y - H:i", strtotime($p_when));
         }
 
         echo str_replace([
-            '{TITLE}', '{DESC}', '{WHEN}', '{LANG}', '{IMGURL}'
+            '{TITLE}', '{DESC}', '{WHEN}', '{LANG}', '{IMGURL}', '{BTNURL}',
         ], [
-            $p_title, $p_desc, $p_when, $p_lang, $p_image
+            $p_title, $p_desc, $p_when, $p_lang, $p_image, '/'.$atts['category'].'/'.$post->post_name,
         ], $content);
 
     }

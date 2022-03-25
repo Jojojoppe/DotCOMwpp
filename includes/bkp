@@ -1,0 +1,34 @@
+        ?>
+            <div class="listing-item">
+                <div class="wp-block-group__inner-container">
+                    <div class="wp-block-columns showlistcols has-background" style="background-color:#d6c2d6;">
+                        <div class="wp-block-column">
+                            <figure class="wp-block-image size-large showimg">
+                                <img class="wp-image-596" src="<?php echo $p_image; ?>" alt>
+                            </figure>
+                        </div>
+                        <div class="wp-block-column showdesccol" style="height: 300px;">
+                            <h5 class="nobtmmargin showtitle"><?php echo $p_title; ?></h5>
+                            <p class="nobtmmargin showinfo"><em><?php echo $p_when; ?></em> [<?php echo $p_lang; ?>]</p>
+                            <p class="showdesc nobtmmargin has-small-font-size" style="max-height: 854px;"><?php echo $p_desc; ?></p>
+                            <div class="wp-block-columns buttoncols buttonfield">
+                                <div class="wp-block-column">
+                                    <div class="wp-container-623e02a30488c wp-block-buttons">
+                                        <div class="wp-block-button largebutton">
+                                            <a class="wp-block-button__link" href="/shows/reserve-tickets/">RESERVE TICKETS</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wp-block-column">
+                                    <div class="wp-container-623e02a3050c6 wp-block-buttons">
+                                        <div class="wp-block-button largebutton">
+                                            <a class="wp-block-button__link" href="/shows/<?php echo $post->post_name; ?>/">MORE INFO</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php

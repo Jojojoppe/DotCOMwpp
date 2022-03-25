@@ -54,6 +54,7 @@ require_once plugin_dir_path(__FILE__)."includes/settings_fields.php";
 // Shortcodes
 require_once plugin_dir_path(__FILE__)."includes/secure_view.php";
 require_once plugin_dir_path(__FILE__)."includes/permissions.php";
+require_once plugin_dir_path(__FILE__)."includes/shows-list.php";
 
 // Members roles and capabilities
 require_once plugin_dir_path(__FILE__)."includes/users.php";

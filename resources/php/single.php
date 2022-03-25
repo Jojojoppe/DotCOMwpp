@@ -80,7 +80,10 @@ get_header(); ?>
                                 <p><?php echo $p_gallery; ?></p>
                             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
                         </div>
-                        
+                       
+                        <?php
+                        if(in_array('shows', $catnames)){
+                        ?>
                         <div class="RESERVEBUTTON">
                             <div class="wp-block-buttons aligncenter">
                                 <div class="wp-block-button">
@@ -88,6 +91,7 @@ get_header(); ?>
                                 </div>
                             </div>
                         </div>
+                        <?php } ?>
                     </div><!-- end content -->
                 </div><!-- end primary -->
 

@@ -15,52 +15,16 @@ add_shortcode('dotcomwpp_permissions', 'dotcomwpp_permissions_shortcode');
 function dotcomwpp_permissions_action(){
     if(isset($_POST['action']) && $_POST['action'] == 'role'){
         $role = $_POST['dotcomwpp_role'];
-        if(current_user_can('nest_edit_'.dotcomwpp_escape(strtolower($role))."_permissions") || in_array('administrator', wp_get_current_user()->roles)){
-            // Update member capabilities
-            $member = get_role('dotcomwpp_'.dotcomwpp_escape(strtolower($role)));
-            $capabilities = explode(',', get_option('dotcomwpp_capabilities'));
-            foreach($capabilities as $cap){
-                if($cap=='') continue;
-                if(in_array($cap, $_POST['dotcomwpp_capabilities'])){
-                    $member->add_cap($cap);
-                }else{
-                    $member->remove_cap($cap);
-                }
-            }
-            dotcomwpp_error('Role capabilities updated', 'message');
-        }
-        if(current_user_can('nest_edit_'.dotcomwpp_escape(strtolower($role))."_users") || in_array('administrator', wp_get_current_user()->roles)){
+        if(current_user_can('nest_edit_'.$role."_users") || in_array('administrator', wp_get_current_user()->roles)){
             // Update user list
             foreach(get_users() as $user){
-                $user->remove_role('dotcomwpp_'.dotcomwpp_escape(strtolower($role)));
-                $user->remove_role('dotcomwpp_'.dotcomwpp_escape(strtolower($role)).'_edit');
+                $user->remove_role($role);
             }
             foreach($_POST['dotcomwpp_users_1'] as $userid){
                 $user = get_user_by('id', $userid);
-                $user->add_role('dotcomwpp_'.dotcomwpp_escape(strtolower($role)));
+                $user->add_role($role);
             }
-            if(current_user_can('nest_edit_'.dotcomwpp_escape(strtolower($role))."_permissions") || in_array('administrator', wp_get_current_user()->roles)){
-                foreach($_POST['dotcomwpp_users_2'] as $userid){
-                    $user = get_user_by('id', $userid);
-                    $user->add_role('dotcomwpp_'.dotcomwpp_escape(strtolower($role))."_edit");
-                }
-            }
-            dotcomwpp_error('Role users updated', 'message');
-        }
-    }elseif(isset($_POST['action']) && $_POST['action'] == 'home'){
-        if(current_user_can('nest_edit_member')){
-            // Update member capabilities
-            $member = get_role('member');
-            $capabilities = explode(',', get_option('dotcomwpp_capabilities'));
-            foreach($capabilities as $cap){
-                if($cap=='') continue;
-                if(in_array($cap, $_POST['dotcomwpp_capabilities'])){
-                    $member->add_cap($cap);
-                }else{
-                    $member->remove_cap($cap);
-                }
-            }
-            dotcomwpp_error('Member capabilities updated', 'message');
+            dotcomwpp_error('Users updated', 'message');
         }
     }
 
@@ -70,7 +34,7 @@ function dotcomwpp_permissions_action(){
 function dotcomwpp_permissions_menu($atts, $content){
     $ret = "";
 
-    $roles = explode(',', get_option('dotcomwpp_committees'));
+    $roles = json_decode(get_option('dotcomwpp_committees'));
 
     $ret .= "<h5>Menu</h5>";
 
@@ -80,10 +44,9 @@ function dotcomwpp_permissions_menu($atts, $content){
     $ret .= "<a href='?action=home'>Home</a><br><br>";
 
     $ret .= "<b>Roles:</b><br>";
-    foreach($roles as $role){
-        if($role=='') continue;
-        if(current_user_can('nest_edit_'.dotcomwpp_escape(strtolower($role))."_users") || current_user_can('nest_edit_'.dotcomwpp_escape(strtolower($role))."_permissions") || in_array('administrator', wp_get_current_user()->roles)){
-            $ret .= "+ <a href='?action=editrole&role=".$role."'>$role</a><br>";
+    foreach($roles as $role => $roledata){
+        if(current_user_can('nest_edit_'.$role."_users") || in_array('administrator', wp_get_current_user()->roles)){
+            $ret .= "+ <a href='?action=editrole&role=".$role."'>".$roledata->name."</a><br>";
         }
     }
 
@@ -102,47 +65,29 @@ function dotcomwpp_permissions_main($atts, $content){
 
         // EDIT ROLE
         // ---------
+        $roles = json_decode(get_option('dotcomwpp_committees'), true);
         $role = $_GET['role'];
-        $ret .= "<h2>Edit ".$role."</h2><form action='' method='post' class='wpcf7'><input type='hidden' name='action' value='role'><input type='hidden' name='dotcomwpp_role' value='$role'>";
+        $ret .= "<h2>Edit ".$roles[$role]['name']."</h2><form action='' method='post' class='wpcf7'><input type='hidden' name='action' value='role'><input type='hidden' name='dotcomwpp_role' value='$role'>";
+        
+        $desc = $roles[$role]['desc'];
+        $ret .= "<p>".$desc."</p>";
 
         // Users in role
-        if(current_user_can('nest_edit_'.dotcomwpp_escape(strtolower($role))."_users") || in_array('administrator', wp_get_current_user()->roles)){
-            $ret .= "<p><b>Users with role '$role':</b><br>";
+        if(current_user_can('nest_edit_'.$role."_users") || in_array('administrator', wp_get_current_user()->roles)){
+            $ret .= "<p><b>Users with role '".$roles[$role]['name']."':</b><br>";
             $users = get_users();
             foreach($users as $user){
                 $ret .= "<input type='checkbox' value='".$user->id."' name='dotcomwpp_users_1[]'";
-                if(in_array("dotcomwpp_".dotcomwpp_escape(strtolower($role)), (array)$user->roles)){
+                if(in_array($role, (array)$user->roles)){
                     $ret .= "checked";
                 }
                 $ret .= "> ";
-
-                if(current_user_can('nest_edit_'.dotcomwpp_escape(strtolower($role))."_permissions") || in_array('administrator', wp_get_current_user()->roles)){
-                    $ret .= " [admin <input type='checkbox' value='".$user->id."' name='dotcomwpp_users_2[]'";
-                    if(in_array("dotcomwpp_".dotcomwpp_escape(strtolower($role))."_edit", (array)$user->roles)){
-                        $ret .= "checked";
-                    }
-                    $ret .= ">]  ";
-                }
                 $ret .= $user->user_nicename."<br>";
             }
             $ret .= '<input type="submit" value="Save changes" class="button button-secondary"><br>';
             $ret .= "</p>";
         }else{
             $ret .= "<p>You do not have permission to add or remove users from this role</p>";
-        }
-
-        // Capabilities of role
-        if(current_user_can('nest_edit_'.dotcomwpp_escape(strtolower($role))."_permissions") || in_array('administrator', wp_get_current_user()->roles)){
-            $ret .= "<p><b>Capabilities of $role:</b><br>";
-            $member = get_role('dotcomwpp_'.dotcomwpp_escape(strtolower($role)));
-            foreach($capabilities as $cap){
-                if($cap=='') continue;
-                $ret .= "<input type='checkbox' value='$cap' name='dotcomwpp_capabilities[]'";
-                if(in_array($cap, $member->capabilities) && $member->capabilities[$cap]) $ret .= " checked";
-                $ret .= "> ". $cap ."<br>";
-            }
-            $ret .= '<input type="submit" value="Save changes" class="button button-secondary"><br>';
-            $ret .= "</p>";
         }
 
         $ret .= "</form>";
@@ -153,24 +98,6 @@ function dotcomwpp_permissions_main($atts, $content){
         // HOME
         // ----
         $ret .= "<h2>Home</h2>On this page you can add and remove members from Role groups. These groups regulate permissions for different sections on the site. Click on a Role group and there you will see a list of all the members with a NEST account who has logged in at least once.";
-        
-        $ret .= "<form action='' method='post' class='wpcf7'><input type='hidden' name='action' value='home'>";
-
-        // Capabilities of members
-        if(current_user_can('nest_edit_members')){
-            $ret .= "<p><b>Capabilities of members:</b><br>";
-            $member = get_role('member');
-            foreach($capabilities as $cap){
-                if($cap=='') continue;
-                $ret .= "<input type='checkbox' value='$cap' name='dotcomwpp_capabilities[]'";
-                if(in_array($cap, $member->capabilities) && $member->capabilities[$cap]) $ret .= " checked";
-                $ret .= "> ". $cap ."<br>";
-            }
-            $ret .= '<input type="submit" value="Save changes" class="button button-secondary"><br>';
-            $ret .= "</p>";
-        }
-
-        $ret .= "</form>";
 
     }
 

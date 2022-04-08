@@ -20,6 +20,7 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
         $p_when = get_string_between($post->post_content, "{WHEN}", "{/WHEN}");
         $p_lang = get_string_between($post->post_content, "{LANG}", "{/LANG}");
         $p_image = wp_get_attachment_url(get_post_thumbnail_id($post->ID), 'thumbnail');
+        $p_resexc = get_string_between($postcontent, "{RESERVE_EXCLUDE}", "{/RESERVE_EXCLUDE}");
 
         // Get first and last date
         $dates = preg_split('/ (-|=) /', $p_when);
@@ -28,6 +29,11 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
         }else{
             $p_when = date("F jS Y - H:i", strtotime($p_when));
         }
+        if($p_resexc!=""){
+            $resexc = preg_split('/ (-|=) /', $p_resexc);
+        }else{
+            $resexc = [];
+        }
 
         echo str_replace([
             '{TITLE}', '{DESC}', '{WHEN}', '{LANG}', '{IMGURL}', '{BTNURL}',
@@ -35,6 +41,8 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
             $p_title, $p_desc, $p_when, $p_lang, $p_image, '/'.$atts['category'].'/'.$post->post_name,
         ], $content);
 
+
+        // TODO REMOVE RESERVE BUTTON IF ALL DATES ARE EXCLUDED FROM RESERVATIONS
     }
 
     $output_string = ob_get_contents();

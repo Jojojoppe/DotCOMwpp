@@ -38,11 +38,17 @@ get_header(); ?>
                         $p_price = get_string_between($postcontent, "{PRICE}", "{/PRICE}");
                         $p_gallery = get_string_between($postcontent, "{GALLERY}", "{/GALLERY}");
                         $p_banner = get_string_between($postcontent, "{BANNER}", "{/BANNER}");
-
+                        $p_resexc = get_string_between($postcontent, "{RESERVE_EXCLUDE}", "{/RESERVE_EXCLUDE}");
+                        
                         $banner = substr($p_banner, strpos($p_banner, 'src="')+5);
                         $banner = substr($banner, 0, strpos($banner, '"'));
 
                         $dates = preg_split('/ (-|=) /', $p_when);
+                        if($p_resexc!=""){
+                            $resexc = preg_split('/ (-|=) /', $p_resexc);
+                        }else{
+                            $resexc = [];
+                        }
                 ?>
                 
                 <div id="primary" class="aux-primary" style="padding-top: 0 !important;">
@@ -82,7 +88,7 @@ get_header(); ?>
                         </div>
                        
                         <?php
-                        if(in_array('shows', $catnames)){
+                        if(in_array('shows', $catnames) && count($resexc)==0){
                         ?>
                         <div class="RESERVEBUTTON">
                             <div class="wp-block-buttons aligncenter">

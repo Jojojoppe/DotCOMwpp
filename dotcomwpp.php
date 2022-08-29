@@ -2,7 +2,7 @@
 /*
 Plugin Name: DotCOMwpp
 Plugin URI: https://github.com/Jojojoppe/DotCOMwpp
-Version: 0.1.2
+Version: 0.1.3
 License: BSD-2
 Author: Joppe Blondel
 Author URI: https://github.com/Jojojoppe
@@ -36,7 +36,7 @@ if(!defined('WPINC')){
 	die;
 }
 
-define("DOTCOMWPP_VERSION", "0.1.2");
+define("DOTCOMWPP_VERSION", "0.1.3");
 
 // Auto updater
 require_once plugin_dir_path(__FILE__)."includes/updater.php";
@@ -69,9 +69,9 @@ if(is_admin()){
       'slug' => plugin_basename(__FILE__), // this is the slug of your plugin
       'proper_folder_name' => __DIR__, // this is the name of the folder your plugin lives in
       'api_url' => 'https://api.github.com/repos/Jojojoppe/DotCOMwpp', // the GitHub API url of your GitHub repo
-      'raw_url' => 'https://raw.github.com/Jojojoppe/DotCOMwpp/master', // the GitHub raw url of your GitHub repo
+      'raw_url' => 'https://raw.githubusercontent.com/Jojojoppe/DotCOMwpp/master', // the GitHub raw url of your GitHub repo
       'github_url' => 'https://github.com/Jojojoppe/DotCOMwpp', // the GitHub url of your GitHub repo
-      'zip_url' => 'https://github.com/Jojojoppe/DotCOMwpp/zipball/master', // the zip url of the GitHub repo
+      'zip_url' => 'https://api.github.com/repos/Jojojoppe/DotCOMwpp/zipball/master', // the zip url of the GitHub repo
       'sslverify' => true, // whether WP should check the validity of the SSL cert when getting an update, see https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/2 and https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/4 for details
       'requires' => '5.0', // which version of WordPress does your plugin require?
       'tested' => '5.9', // which version of WordPress is your plugin tested up to?

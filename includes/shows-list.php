@@ -42,7 +42,10 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
         ], $content);
 
 
-        // TODO REMOVE RESERVE BUTTON IF ALL DATES ARE EXCLUDED FROM RESERVATIONS
+        // REMOVE RESERVE BUTTON IF ALL DATES ARE EXCLUDED FROM RESERVATIONS
+        if(issert($atts['reserve_button']) && count($dates)==count($resexc)){
+            $content = '<div style=".'.$atts['reserve_button'].'{ display: none !important; visibility: hidden !important; }">'.$content."</div>;
+        }
     }
 
     $output_string = ob_get_contents();

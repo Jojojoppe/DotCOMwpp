@@ -20,7 +20,7 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
         $p_when = get_string_between($post->post_content, "{WHEN}", "{/WHEN}");
         $p_lang = get_string_between($post->post_content, "{LANG}", "{/LANG}");
         $p_image = wp_get_attachment_url(get_post_thumbnail_id($post->ID), 'thumbnail');
-        $p_resexc = get_string_between($postcontent, "{RESERVE_EXCLUDE}", "{/RESERVE_EXCLUDE}");
+        $p_resexc = get_string_between($post->post_content, "{RESERVE_EXCLUDE}", "{/RESERVE_EXCLUDE}");
 
         // Get first and last date
         $dates = preg_split('/ (-|=) /', $p_when);
@@ -35,17 +35,15 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
             $resexc = [];
         }
 
+        if(count($dates)==count($resexc) && isset($atts['reserve_button']) && $atts['reserve_button']!=''){
+            $content = str_replace([$atts['reserve_button']], ['hiddenitem'], $content);
+        }
+
         echo str_replace([
             '{TITLE}', '{DESC}', '{WHEN}', '{LANG}', '{IMGURL}', '{BTNURL}',
         ], [
             $p_title, $p_desc, $p_when, $p_lang, $p_image, '/'.$atts['category'].'/'.$post->post_name,
         ], $content);
-
-
-        // REMOVE RESERVE BUTTON IF ALL DATES ARE EXCLUDED FROM RESERVATIONS
-        if(issert($atts['reserve_button']) && count($dates)==count($resexc)){
-            $content = '<div style=".'.$atts['reserve_button'].'{ display: none !important; visibility: hidden !important; }">'.$content."</div>;
-        }
     }
 
     $output_string = ob_get_contents();

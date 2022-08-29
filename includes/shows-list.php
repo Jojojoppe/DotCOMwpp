@@ -35,7 +35,7 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
             $resexc = [];
         }
 
-        if(count($dates)==count($resexc) && isset($atts['reserve_button']) && $atts['reserve_button']!=''){
+        if(count($dates)==count($resexc) && $atts['reserve_button']!=''){
             $content = str_replace([$atts['reserve_button']], ['hiddenitem'], $content);
         }
 

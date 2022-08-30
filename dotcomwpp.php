@@ -2,7 +2,7 @@
 /*
 Plugin Name: DotCOMwpp
 Plugin URI: https://github.com/Jojojoppe/DotCOMwpp
-Version: 0.1.3-2
+Version: 0.1.3-3
 License: BSD-2
 Author: Joppe Blondel
 Author URI: https://github.com/Jojojoppe
@@ -36,7 +36,7 @@ if(!defined('WPINC')){
 	die;
 }
 
-define("DOTCOMWPP_VERSION", "0.1.3-2");
+define("DOTCOMWPP_VERSION", "0.1.3-3");
 
 // Auto updater
 require_once plugin_dir_path(__FILE__)."includes/updater.php";

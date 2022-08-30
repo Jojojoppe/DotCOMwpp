@@ -13,7 +13,7 @@ function dotcomwpp_shows_list_shortcode($atts=[], $content=null){
         'numberposts' => -1,
         'category' => $cat,
         'orderby' => 'date',
-        'order' => 'ASC',
+        'order' => 'DESC',
     ]) as $post){
         $p_title = get_string_between($post->post_content, "{TITLE}", "{/TITLE}");
         $p_desc = get_string_between($post->post_content, "{DESC}", "{/DESC}");
